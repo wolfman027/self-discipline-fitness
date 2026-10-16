@@ -1,0 +1,47 @@
+# 动作库 MOVES —— systemd 常驻单元
+#
+# 安装：
+#   sudo cp deploy/moves.service /etc/systemd/system/moves.service
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now moves
+#
+# 日志：journalctl -u moves -f
+# 改完本文件后需 `sudo systemctl daemon-reload` 再 restart 才生效。
+#
+# 路径按 README 的约定：代码在 /srv/moves/app，服务以 moves 用户运行。
+# 如果你装在别处，改 WorkingDirectory 和 ExecStart 里的路径。
+
+[Unit]
+Description=动作库 MOVES（Next.js 站点）
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=moves
+Group=moves
+WorkingDirectory=/srv/moves/app
+
+Environment=NODE_ENV=production
+Environment=NEXT_TELEMETRY_DISABLED=1
+
+# 直调 node，不走 pnpm —— systemd 的 PATH 很精简，不保证能找到 pnpm/corepack。
+# 若 node 不在 /usr/bin，把 /usr/bin/env 换成 node 的绝对路径。
+#
+# -H 127.0.0.1 是必须的：next start 默认绑 0.0.0.0，那样外部能直接访问
+# http://<服务器IP>:3000，绕过 Nginx 也绕过 basic auth 门禁。绑回环后
+# 只有 Nginx 能连到它。
+ExecStart=/usr/bin/env node node_modules/next/dist/bin/next start -H 127.0.0.1 -p 3000
+
+Restart=on-failure
+RestartSec=5
+
+# ---- 加固 ----
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+# 若 node 是用 nvm 装在 /home 下的，ProtectHome 会让它找不到运行时，需删掉本行
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target

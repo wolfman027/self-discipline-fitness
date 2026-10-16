@@ -1,0 +1,32 @@
+{
+  "name": "fitness-moves",
+  "version": "1.0.0",
+  "private": true,
+  "description": "健身动作库 —— 1324 个动作的展示站点，含中文分步要点与动作演示",
+  "scripts": {
+    "data": "node scripts/build-data.mjs",
+    "dev": "next dev",
+    "build": "./build.sh",
+    "build:local": "./scripts/build-local.sh",
+    "start": "next start",
+    "test": "node scripts/e2e.mjs",
+    "verify": "./scripts/build-local.sh && next start -p 3000 & sleep 6; node scripts/e2e.mjs"
+  },
+  "dependencies": {
+    "@fontsource/barlow": "^5.3.0",
+    "@fontsource/barlow-condensed": "^5.3.0",
+    "next": "^15.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@next/swc-wasm-nodejs": "15.5.27",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.7.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

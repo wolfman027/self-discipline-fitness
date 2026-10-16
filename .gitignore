@@ -1,0 +1,38 @@
+# ---------- 依赖 ----------
+node_modules/
+.pnpm-store/
+
+# ---------- Next.js 构建产物 ----------
+/.next/
+/out/
+/build/
+# Next 每次 dev/build 自动生成，手改无效
+next-env.d.ts
+*.tsbuildinfo
+
+# ---------- 环境变量（可能含密钥，绝不入库） ----------
+.env
+.env.*
+!.env.example
+
+# ---------- 媒体素材（重要） ----------
+# 版权归 © Gym visual，非 MIT 授权，README「媒体授权」明确禁止随仓库分发。
+# 本机 public/media 是指向 prototype/media 的符号链接（137MB），
+# 且为绝对路径，别人 clone 下来也无效。
+/public/media
+
+# ---------- 系统 / 编辑器杂项 ----------
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# ---------- 日志 ----------
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ---------- 部署平台 ----------
+.vercel

@@ -1,0 +1,166 @@
+/* ===========================================================
+   设计令牌 · 浅色清爽版
+   层级逻辑：骨架用中性灰 → 操作只给一个蓝色 → 状态各占一色
+   全部颜色经 WCAG AA 实测（正文 ≥4.5:1，图形 ≥3:1）
+   =========================================================== */
+:root {
+  /* 中性色骨架 */
+  --bg: #ffffff;
+  --surface: #f8fafc;
+  --surface-2: #f1f5f9;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --fg: #0f172a;
+  /* 次要文字原为 #64748B，在 surface-2 上只有 4.34:1，压深后 4.73:1 */
+  --fg-muted: #5f6e85;
+  --fg-subtle: #5f6e85;
+  /* 抽屉头图等大尺寸装饰图标专用（图形阈值 3:1） */
+  --icon-muted: #7a8a9f;
+
+  /* 品牌与操作：全站唯一的蓝，只用于可点击/激活 */
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-soft: #eff6ff;
+  --primary-fg: #ffffff;
+  --accent: #049bdf;
+
+  /* 语义状态色：只用于徽标，不参与按钮 */
+  --success: #15803d;
+  --success-soft: #f0fdf4;
+  --success-border: #bbf7d0;
+  --warning: #b45309;
+  --warning-soft: #fffbeb;
+  --warning-border: #fde68a;
+  --danger: #b91c1c;
+  --danger-soft: #fef2f2;
+  --danger-border: #fecaca;
+  --focus: #2563eb;
+
+  /* 间距栅格 4/8 */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+
+  /* 圆角 */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  /* 字号阶梯 12/14/16/20/28/36/48 */
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-md: 16px;
+  --text-lg: 20px;
+  --text-xl: 28px;
+  --text-2xl: 36px;
+  --text-3xl: 48px;
+
+  /* 字体由 @fontsource 自托管（woff2 打包进站点，构建与运行都不访问 Google Fonts）。
+     这里用字面字体名，与 @fontsource 注入的 @font-face 对应；
+     万一字体文件缺失，整条声明会回落到系统字体栈，不会排版崩坏。 */
+  --font-body: 'Barlow', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --font-display: 'Barlow Condensed', 'Barlow', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', 'PingFang SC', sans-serif;
+
+  --leading-tight: 1.25;
+  --leading-normal: 1.7;
+
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.06);
+  --shadow-lg: 0 24px 48px rgba(15, 23, 42, 0.16);
+  --maxw: 1200px;
+}
+
+/* 深色主题：同一套令牌换值，验证语义抽象是否站得住 */
+[data-theme='dark'] {
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --surface-2: #334155;
+  --border: #334155;
+  --border-strong: #475569;
+  --fg: #f8fafc;
+  /* 深色下 #94A3B8 在 surface-2 只有 4.04:1，提亮到 4.94:1 */
+  --fg-muted: #a8b4c6;
+  --fg-subtle: #a8b4c6;
+  --icon-muted: #8494a8;
+  /* 主色用 #3B82F6 时白字只有 3.68:1，压深到 #2E6FE0 达 4.7:1 */
+  --primary: #2e6fe0;
+  --primary-hover: #3b82f6;
+  --primary-soft: #1e3a8a;
+  --success: #4ade80;
+  --success-soft: #052e16;
+  --success-border: #166534;
+  --warning: #fbbf24;
+  --warning-soft: #451a03;
+  --warning-border: #92400e;
+  --danger: #f87171;
+  --danger-soft: #450a0a;
+  --danger-border: #991b1b;
+  --focus: #3b82f6;
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: var(--text-md);
+  line-height: var(--leading-normal);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  line-height: var(--leading-tight);
+  letter-spacing: 0.01em;
+  margin: 0;
+  font-weight: 600;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* 焦点环：所有可交互元素统一，且不只靠颜色变化 */
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+/* 动画与过渡在 prefers-reduced-motion 下关闭 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
